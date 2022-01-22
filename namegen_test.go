@@ -44,7 +44,8 @@ type getNameForIdTest struct {
 }
 
 var getNameForIdTests = []getNameForIdTest{
-	{1234, options{[][]string{adjectives, animals}, "-", 0, Numeric}},
+	{1111, options{[][]string{adjectives, animals}, "-", 0, Numeric}},
+	{1234, options{[][]string{adjectives, animals}, "-", 4, Numeric}},
 }
 
 func stringInSlice(a string, list []string) bool {
@@ -66,5 +67,17 @@ func TestGetNameForId(t *testing.T) {
 			}
 		}
 		// Check the postfix.
+		if test.arg2.postfixLen > 0 {
+			if want := len(test.arg2.dicts) + 1; len(output) != want {
+				t.Errorf("Unexpected output:%v for %d dicts", output, want)
+			}
+			if postfix := output[len(output)-1]; len(postfix) != test.arg2.postfixLen {
+				t.Errorf("Unexpected postfix: %s for postfixLen: %d", postfix, test.arg2.postfixLen)
+			}
+		} else {
+			if want := len(test.arg2.dicts); len(output) != want {
+				t.Errorf("Unexpected output:%v for %d dicts", output, want)
+			}
+		}
 	}
 }
