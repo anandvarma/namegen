@@ -5,7 +5,7 @@ type DictType byte
 const (
 	Adjectives DictType = iota
 	Colors     DictType = iota
-	Nouns      DictType = iota
+	Animals    DictType = iota
 	numDicts   DictType = iota
 )
 
@@ -14,7 +14,7 @@ var dicts [numDicts][]string
 func init() {
 	dicts[Adjectives] = adjectives
 	dicts[Colors] = colors
-	dicts[Nouns] = animals
+	dicts[Animals] = animals
 }
 
 var adjectives = []string{

@@ -1,4 +1,5 @@
-# namegen <div style="float: right"> [![GitHub license](https://badgen.net/github/license/anandvarma/namegen)](https://github.com/anandvarma/namegen/blob/main/LICENSE) [![GoReportCard](https://goreportcard.com/badge/github.com/anandvarma/namegen)](https://goreportcard.com/report/github.com/anandvarma/namegen) </div>
+# namegen 
+[![GitHub license](https://badgen.net/github/license/anandvarma/namegen)](https://github.com/anandvarma/namegen/blob/main/LICENSE) [![GoReportCard](https://goreportcard.com/badge/github.com/anandvarma/namegen)](https://goreportcard.com/report/github.com/anandvarma/namegen)
 
 ![preview](https://raw.githubusercontent.com/ashleymcnamara/gophers/master/GOPHER_AVATARS.jpg)
 
@@ -17,7 +18,7 @@ For instance, it came up with gems like this:
 
 
 
-## Examples
+## API & Usage
 > // TODO
 
 

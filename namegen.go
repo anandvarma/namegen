@@ -13,7 +13,7 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-type NameGen struct {
+type nameGen struct {
 	dicts   []DictType
 	delim   string
 	pIdType PostfixIdType
@@ -27,27 +27,27 @@ const (
 	AlphaNumeric PostfixIdType = 36
 )
 
-func New(dicts []DictType) *NameGen {
-	return &NameGen{dicts, "-" /* delim */, Numeric /* pIdType */, 0 /* pIdLen */}
+func New(dicts []DictType) *nameGen {
+	return &nameGen{dicts, "-" /* delim */, Numeric /* pIdType */, 0 /* pIdLen */}
 }
 
-func NewWithPostfixId(dicts []DictType, pIdType PostfixIdType, pIdLen int) *NameGen {
-	return &NameGen{dicts, "-" /* delimiter */, pIdType, pIdLen}
+func NewWithPostfixId(dicts []DictType, pIdType PostfixIdType, pIdLen int) *nameGen {
+	return &nameGen{dicts, "-" /* delimiter */, pIdType, pIdLen}
 }
 
-func (n *NameGen) SetDelimiter(delim string) {
+func (n *nameGen) SetDelimiter(delim string) {
 	n.delim = delim
 }
 
-func (n *NameGen) SetPostfixIdLen(pIdLen int) {
+func (n *nameGen) SetPostfixIdLen(pIdLen int) {
 	n.pIdLen = pIdLen
 }
 
-func (n NameGen) Get() string {
+func (n nameGen) Get() string {
 	return n.GetForId(rand.Int63())
 }
 
-func (n NameGen) GetForId(randNum int64) string {
+func (n nameGen) GetForId(randNum int64) string {
 	substrs := []string{}
 	for _, dIdx := range n.dicts {
 		d := dicts[dIdx]
