@@ -1,12 +1,21 @@
 package namegen
 
-type Dictionary byte
+type DictType byte
 
 const (
-	Adjectives Dictionary = iota
-	Animals    Dictionary = iota
-	Colours    Dictionary = iota
+	Adjectives DictType = iota
+	Colors     DictType = iota
+	Nouns      DictType = iota
+	numDicts   DictType = iota
 )
+
+var dicts [numDicts][]string
+
+func init() {
+	dicts[Adjectives] = adjectives
+	dicts[Colors] = colors
+	dicts[Nouns] = animals
+}
 
 var adjectives = []string{
 	"abundant",
@@ -33,7 +42,7 @@ var adjectives = []string{
 	"abiding",
 }
 
-var colours = []string{
+var colors = []string{
 	"pink",
 	"pale",
 	"tan",

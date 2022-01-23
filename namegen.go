@@ -13,54 +13,67 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-// PostfixEncoding represents the various encoding styles that may be used for constructing postfixes.
-type PostfixEncoding byte
+type NameGen struct {
+	dicts   []DictType
+	delim   string
+	pIdType PostfixIdType
+	pIdLen  int
+}
+
+type PostfixIdType byte
 
 const (
-	Numeric      PostfixEncoding = 10 // Numbers only, Base10 encoding
-	Hex          PostfixEncoding = 16 // Hex, Base16 encoding
-	Alphanumeric PostfixEncoding = 36 // AlphaNumeric lower case, Base36 encoding
+	Numeric      PostfixIdType = 10
+	AlphaNumeric PostfixIdType = 36
 )
 
-func getPostfix(num int, encoding PostfixEncoding, postfixLen int) string {
-	enc := strconv.FormatInt(int64(num), int(encoding))
-	if len(enc) >= postfixLen {
+func New(dicts []DictType) *NameGen {
+	return &NameGen{dicts, "-" /* delim */, Numeric /* pIdType */, 0 /* pIdLen */}
+}
+
+func NewWithPostfixId(dicts []DictType, pIdType PostfixIdType, pIdLen int) *NameGen {
+	return &NameGen{dicts, "-" /* delimiter */, pIdType, pIdLen}
+}
+
+func (n *NameGen) SetDelimiter(delim string) {
+	n.delim = delim
+}
+
+func (n *NameGen) SetPostfixIdLen(pIdLen int) {
+	n.pIdLen = pIdLen
+}
+
+func (n NameGen) Get() string {
+	return n.GetForId(rand.Int63())
+}
+
+func (n NameGen) GetForId(randNum int64) string {
+	substrs := []string{}
+	for _, dIdx := range n.dicts {
+		d := dicts[dIdx]
+		substrs = append(substrs, d[randNum%int64(len(d))])
+	}
+	if n.pIdLen > 0 {
+		substrs = append(substrs, getPostfixId(randNum, n.pIdType, n.pIdLen))
+	}
+	return strings.Join(substrs, n.delim)
+}
+
+func getPostfixId(num int64, pIdType PostfixIdType, pIdLen int) string {
+	enc := strconv.FormatInt(num, int(pIdType))
+	if len(enc) >= pIdLen {
 		// Trim to the required size.
-		return enc[len(enc)-postfixLen:]
+		return enc[len(enc)-pIdLen:]
 	} else {
 		// Pad zeroes to the required size.
-		return fmt.Sprintf("%0*s", postfixLen, enc)
+		return fmt.Sprintf("%0*s", pIdLen, enc)
 	}
 }
 
-type options struct {
-	dicts        [][]string
-	delimiter    string
-	postfixLen   int
-	postfixStyle PostfixEncoding
-}
+// Returns a short random name of the format "adjective-noun-xx".
 
-func GetShort() string {
-	return GetName(options{[][]string{adjectives, animals}, "-", 2, Numeric})
-}
-
-func GetLong() string {
-	return GetName(options{[][]string{adjectives, colours, animals}, "-", 6, Numeric})
-}
+// Returns a random name of the format "adjective-colour-noun-xxxxxx".
 
 // Returns a randomized name using 'opts'.
-func GetName(opts options) string {
-	return GetNameForId(rand.Int(), opts)
-}
 
 // Returns a name corresponding to 'randomId', using 'opts'.
-func GetNameForId(randomId int, opts options) string {
-	substrs := []string{}
-	for _, d := range opts.dicts {
-		substrs = append(substrs, d[randomId%len(d)])
-	}
-	if opts.postfixLen > 0 {
-		substrs = append(substrs, getPostfix(randomId, opts.postfixStyle, int(opts.postfixLen)))
-	}
-	return strings.Join(substrs, opts.delimiter)
-}
