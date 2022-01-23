@@ -75,3 +75,27 @@ func stringInSlice(a string, list []string) bool {
 	}
 	return false
 }
+
+func TestSetters(t *testing.T) {
+	// Check default values.
+	n := New()
+	if (n.dicts[0] != Adjectives) || (n.dicts[1] != Animals) {
+		t.Errorf("Unexpected default dictionary schema: %v", n.dicts)
+	}
+	if n.delim != "-" {
+		t.Errorf("Unexpected default delimiter: %s", n.delim)
+	}
+	if n.pIdLen != 0 {
+		t.Errorf("Unexpected default prefix length: %d", n.pIdLen)
+	}
+
+	// Validate the setters.
+	n.SetDelimiter(".")
+	if n.delim != "." {
+		t.Errorf("Unexpected delimiter: %s", n.delim)
+	}
+	n.SetPostfixIdLen(7)
+	if n.pIdLen != 7 {
+		t.Errorf("Unexpected prefix length: %d", n.pIdLen)
+	}
+}

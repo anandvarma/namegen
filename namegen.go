@@ -20,33 +20,52 @@ type nameGen struct {
 	pIdLen  int
 }
 
+// The type of encoding to use when constructing postfix ids.
 type PostfixIdType byte
 
 const (
-	Numeric      PostfixIdType = 10
-	AlphaNumeric PostfixIdType = 36
+	Numeric      PostfixIdType = 10 // Base 10 encoding
+	AlphaNumeric PostfixIdType = 36 // Base 36 encoding
 )
 
-func New(dicts []DictType) *nameGen {
-	return &nameGen{dicts, "-" /* delim */, Numeric /* pIdType */, 0 /* pIdLen */}
+// Creates and retuns a new nameGen instance configured to generate unique names using the default config.
+// Returns a string in the following format "adjective-animal".
+func New() *nameGen {
+	return NewWithDicts([]DictType{Adjectives, Animals})
 }
 
+// Creates and retuns a new nameGen instance configured to generate unique names using the default config and a custom naming schema defined by 'dicts'.
+// Returns a string in the following format "d1.word-d2.word".
+func NewWithDicts(dicts []DictType) *nameGen {
+	return NewWithPostfixId(dicts, Numeric /* pIdType */, 0 /* pIdLen */)
+}
+
+// Creates and retuns a new nameGen instance configured to generate unique human-readable ids using the default config and 'dicts'.
+// A postfix id of 'pIdLen' is generated using 'pIdType' encoding.
+// Retuns a string in the following format "d1.word-d2.word-postfix.id".
 func NewWithPostfixId(dicts []DictType, pIdType PostfixIdType, pIdLen int) *nameGen {
 	return &nameGen{dicts, "-" /* delimiter */, pIdType, pIdLen}
 }
 
+// Sets the delimiter to 'delim'.
 func (n *nameGen) SetDelimiter(delim string) {
 	n.delim = delim
 }
 
+// Sets the postfix length to 'pIdLen'.
+// If we encounter collisions, we may use this to expand the ID space for increased randomness.
 func (n *nameGen) SetPostfixIdLen(pIdLen int) {
 	n.pIdLen = pIdLen
 }
 
+// Generates and returns a random name, based on the configuration.
+// This function uses math/rand to generate random ids. To bring your own random numbers, use the GetForId(int64) call instead.
 func (n nameGen) Get() string {
 	return n.GetForId(rand.Int63())
 }
 
+// Generates and returns a random name corresponding to 'randNum', based on the configuration.
+// This API is provided to allow the caller to bring their own random numbers instead of relying on math/rand that Get() uses otherwise.
 func (n nameGen) GetForId(randNum int64) string {
 	substrs := []string{}
 	for _, dIdx := range n.dicts {
@@ -69,11 +88,3 @@ func getPostfixId(num int64, pIdType PostfixIdType, pIdLen int) string {
 		return fmt.Sprintf("%0*s", pIdLen, enc)
 	}
 }
-
-// Returns a short random name of the format "adjective-noun-xx".
-
-// Returns a random name of the format "adjective-colour-noun-xxxxxx".
-
-// Returns a randomized name using 'opts'.
-
-// Returns a name corresponding to 'randomId', using 'opts'.

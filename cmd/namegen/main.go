@@ -11,6 +11,6 @@ func main() {
 		namegen.Adjectives,
 		namegen.Animals,
 	}
-	ngen := namegen.NewWithPostfixId(name_schema, namegen.Numeric, 4)
+	ngen := namegen.NewWithPostfixId(name_schema, namegen.Numeric /* pIdType */, 4 /* pIdLen */)
 	fmt.Println(ngen.Get())
 }

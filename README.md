@@ -1,5 +1,4 @@
-# namegen 
-[![GitHub license](https://badgen.net/github/license/anandvarma/namegen)](https://github.com/anandvarma/namegen/blob/main/LICENSE) [![GoReportCard](https://goreportcard.com/badge/github.com/anandvarma/namegen)](https://goreportcard.com/report/github.com/anandvarma/namegen)
+# namegen <div> [![GitHub license](https://badgen.net/github/license/anandvarma/namegen)](https://github.com/anandvarma/namegen/blob/main/LICENSE) [![GoReportCard](https://goreportcard.com/badge/github.com/anandvarma/namegen)](https://goreportcard.com/report/github.com/anandvarma/namegen) </div>
 
 ![preview](https://raw.githubusercontent.com/ashleymcnamara/gophers/master/GOPHER_AVATARS.jpg)
 

@@ -1,5 +1,6 @@
 package namegen
 
+// The type of dictionary.
 type DictType byte
 
 const (
@@ -17,6 +18,7 @@ func init() {
 	dicts[Animals] = animals
 }
 
+// Word corpus of interesting adjectives.
 var adjectives = []string{
 	"abundant",
 	"adorable",
@@ -42,12 +44,14 @@ var adjectives = []string{
 	"abiding",
 }
 
+// Word corpus of colors.
 var colors = []string{
 	"pink",
 	"pale",
 	"tan",
 }
 
+// Word corpus of animals.
 var animals = []string{
 	"hammerhead",
 	"coorgi",
