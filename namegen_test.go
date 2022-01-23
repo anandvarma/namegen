@@ -61,7 +61,7 @@ func TestGetNameForId(t *testing.T) {
 	for _, test := range getNameForIdTests {
 		output := strings.Split(GetNameForId(test.arg1, test.arg2), test.arg2.delimiter)
 		// Check to make sure the correct dictionaries were used and in the right order.
-		for i, _ := range test.arg2.dicts {
+		for i := range test.arg2.dicts {
 			if !stringInSlice(output[i], test.arg2.dicts[i]) {
 				t.Errorf("Dict %d doesn't contain %s", i, output[i])
 			}
