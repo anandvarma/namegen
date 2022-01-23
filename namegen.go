@@ -8,13 +8,18 @@ import (
 	"time"
 )
 
-// The type of encoding to use on the prefix.
+// Seed the rand package to avoid deterministic results.
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+// PostfixEncoding represents the various encoding styles that may be used for constructing postfixes.
 type PostfixEncoding byte
 
 const (
-	Numeric      PostfixEncoding = 10
-	Hex          PostfixEncoding = 16
-	Alphanumeric PostfixEncoding = 36
+	Numeric      PostfixEncoding = 10 // Numbers only, Base10 encoding
+	Hex          PostfixEncoding = 16 // Hex, Base16 encoding
+	Alphanumeric PostfixEncoding = 36 // AlphaNumeric lower case, Base36 encoding
 )
 
 func getPostfix(num int, encoding PostfixEncoding, postfixLen int) string {
@@ -33,10 +38,6 @@ type options struct {
 	delimiter    string
 	postfixLen   int
 	postfixStyle PostfixEncoding
-}
-
-func init() {
-	rand.Seed(time.Now().UnixNano())
 }
 
 func GetShort() string {
