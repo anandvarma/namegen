@@ -67,15 +67,19 @@ func (n nameGen) Get() string {
 // Generates and returns a random name corresponding to 'randNum', based on the configuration.
 // This API is provided to allow the caller to bring their own random numbers instead of relying on math/rand that Get() uses otherwise.
 func (n nameGen) GetForId(randNum int64) string {
-	substrs := []string{}
-	for _, dIdx := range n.dicts {
+	var sBuf strings.Builder
+
+	for i, dIdx := range n.dicts {
 		d := dicts[dIdx]
-		substrs = append(substrs, d[randNum%int64(len(d))])
+		sBuf.WriteString(d[randNum%int64(len(d))])
+		if (i < len(n.dicts)-1) || (n.pIdLen > 0) {
+			sBuf.WriteString("-")
+		}
 	}
 	if n.pIdLen > 0 {
-		substrs = append(substrs, getPostfixId(randNum, n.pIdType, n.pIdLen))
+		sBuf.WriteString(getPostfixId(randNum, n.pIdType, n.pIdLen))
 	}
-	return strings.Join(substrs, n.delim)
+	return sBuf.String()
 }
 
 func getPostfixId(num int64, pIdType PostfixIdType, pIdLen int) string {
