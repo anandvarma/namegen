@@ -1,8 +1,10 @@
 package namegen
 
 import (
+	"math/rand"
 	"strings"
 	"testing"
+	"time"
 )
 
 type getPostfixIdTest struct {
@@ -97,5 +99,44 @@ func TestSetters(t *testing.T) {
 	n.SetPostfixIdLen(7)
 	if n.pIdLen != 7 {
 		t.Errorf("Unexpected prefix length: %d", n.pIdLen)
+	}
+}
+
+func BenchmarkNew(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		New()
+	}
+}
+
+func BenchmarkGet(b *testing.B) {
+	ngen := New()
+	for n := 0; n < b.N; n++ {
+		ngen.Get()
+	}
+}
+
+func BenchmarkGetForId(b *testing.B) {
+	ngen := New()
+	rand.Seed(time.Now().UnixNano())
+	rn := rand.Int63()
+	for n := 0; n < b.N; n++ {
+		ngen.GetForId(rn)
+	}
+}
+
+func BenchmarkGetWithPostfix(b *testing.B) {
+	ngen := New()
+	ngen.SetPostfixIdLen(8)
+	for n := 0; n < b.N; n++ {
+		ngen.Get()
+	}
+}
+
+func BenchmarkGetPostfixId(b *testing.B) {
+	rand.Seed(time.Now().UnixNano())
+	rn := rand.Int63()
+	// Note: This benchmark targets the most common case of trimming the encoded number.
+	for n := 0; n < b.N; n++ {
+		getPostfixId(rn, Numeric, 4)
 	}
 }
