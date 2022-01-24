@@ -14,12 +14,9 @@ For instance, it came up with gems like: `boujee-coorgi`, `young-flamingo`, `art
 ### Features
 - 1 Million+ unique possibilities with just names and nearly infinite named ids
 - Zero Allocations! No additional memory allocations other than the `string` returned
-- Blazing fast!! `(9,000,000+ Op/s)`
+- Blazing fast!! `(10,000,000+ Op/s)`
 
-<hr/>
-
-
-### API & Usage
+## API & Usage
 
 > Generate names using default config.
 
@@ -38,5 +35,17 @@ For instance, it came up with gems like: `boujee-coorgi`, `young-flamingo`, `art
 	
 [Go Reference](https://pkg.go.dev/github.com/anandvarma/namegen)
 
-### Benchmarks
+---
 
+### Benchmarks
+	goos: linux
+	goarch: amd64
+	pkg: github.com/anandvarma/namegen
+	cpu: AMD Ryzen 5 3600 6-Core Processor              
+	BenchmarkNew-12                 1000000000               0.2561 ns/op          0 B/op          0 allocs/op
+	BenchmarkGet-12                 14617033                82.80 ns/op           18 B/op          1 allocs/op
+	BenchmarkGetForId-12            21623218                51.25 ns/op           16 B/op          1 allocs/op
+	BenchmarkGetWithPostfix-12      10882941               111.7 ns/op            26 B/op          1 allocs/op
+	BenchmarkGetPostfixId-12        31611556                37.07 ns/op           20 B/op          0 allocs/op
+	PASS
+	ok      github.com/anandvarma/namegen   5.293s
