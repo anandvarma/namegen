@@ -29,7 +29,10 @@ var getPostfixIdTests = []getPostfixIdTest{
 
 func TestGetPostfix(t *testing.T) {
 	for _, test := range getPostfixIdTests {
-		if output := getPostfixId(test.arg1, test.arg2, test.arg3); output != test.expected {
+		var sb strings.Builder
+		getPostfixId(&sb, test.arg1, test.arg2, test.arg3)
+		output := sb.String()
+		if output != test.expected {
 			t.Errorf("Output %q not equal to expected %q", output, test.expected)
 		}
 	}
@@ -135,8 +138,9 @@ func BenchmarkGetWithPostfix(b *testing.B) {
 func BenchmarkGetPostfixId(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
 	rn := rand.Int63()
-	// Note: This benchmark targets the most common case of trimming the encoded number.
+	var sb strings.Builder
 	for n := 0; n < b.N; n++ {
-		getPostfixId(rn, Numeric, 4)
+		// Note: This benchmark targets the most common case of trimming the encoded number.
+		getPostfixId(&sb, rn, Numeric, 4)
 	}
 }

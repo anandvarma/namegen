@@ -67,28 +67,33 @@ func (n nameGen) Get() string {
 // Generates and returns a random name corresponding to 'randNum', based on the configuration.
 // This API is provided to allow the caller to bring their own random numbers instead of relying on math/rand that Get() uses otherwise.
 func (n nameGen) GetForId(randNum int64) string {
-	var sBuf strings.Builder
+	var sb strings.Builder
 
 	for i, dIdx := range n.dicts {
 		d := dicts[dIdx]
-		sBuf.WriteString(d[randNum%int64(len(d))])
+		sb.WriteString(d[randNum%int64(len(d))])
 		if (i < len(n.dicts)-1) || (n.pIdLen > 0) {
-			sBuf.WriteString("-")
+			sb.WriteString("-")
 		}
 	}
 	if n.pIdLen > 0 {
-		sBuf.WriteString(getPostfixId(randNum, n.pIdType, n.pIdLen))
+		getPostfixId(&sb, randNum, n.pIdType, n.pIdLen)
 	}
-	return sBuf.String()
+	return sb.String()
 }
 
-func getPostfixId(num int64, pIdType PostfixIdType, pIdLen int) string {
-	enc := strconv.FormatInt(num, int(pIdType))
-	if len(enc) >= pIdLen {
-		// Trim to the required size.
-		return enc[len(enc)-pIdLen:]
-	} else {
-		// Pad zeroes to the required size.
-		return fmt.Sprintf("%0*s", pIdLen, enc)
+func getPostfixId(sb *strings.Builder, num int64, pIdType PostfixIdType, pIdLen int) {
+	// The smallest encoding we use is Base10. INT64_MAX fits within 20 chars.
+	encBuf := make([]byte, 0, 20)
+	encBuf = strconv.AppendInt(encBuf, num, int(pIdType))
+
+	if len(encBuf) < pIdLen {
+		// Pad zeroes to the required size. Unlikely case.
+		out := fmt.Sprintf("%0*s", pIdLen, string(encBuf))
+		sb.WriteString(out)
+		return
 	}
+
+	// Trim to the required size.
+	sb.Write(encBuf[len(encBuf)-pIdLen:])
 }
