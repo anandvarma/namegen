@@ -67,11 +67,20 @@ func (n nameGen) Get() string {
 // Generates and returns a random name corresponding to 'randNum', based on the configuration.
 // This API is provided to allow the caller to bring their own random numbers instead of relying on math/rand that Get() uses otherwise.
 func (n nameGen) GetForId(randNum int64) string {
+	randIdxArr := make([]int, 0, 8)
+	retLen := n.pIdLen
+	for _, dIdx := range n.dicts {
+		d := dicts[dIdx]
+		wIdx := int(randNum) % len(d)
+		randIdxArr = append(randIdxArr, wIdx)
+		retLen += len(d[wIdx]) + len(n.delim)
+	}
 	var sb strings.Builder
+	sb.Grow(retLen)
 
 	for i, dIdx := range n.dicts {
 		d := dicts[dIdx]
-		sb.WriteString(d[randNum%int64(len(d))])
+		sb.WriteString(d[randIdxArr[i]])
 		if (i < len(n.dicts)-1) || (n.pIdLen > 0) {
 			sb.WriteString("-")
 		}
