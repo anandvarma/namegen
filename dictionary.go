@@ -1,13 +1,17 @@
 package namegen
 
-// The type of dictionary.
+// DictType represents a unique type of word corpus.
 type DictType byte
 
 const (
+	// Adjective word list.
 	Adjectives DictType = iota
-	Colors     DictType = iota
-	Animals    DictType = iota
-	numDicts   DictType = iota
+	// Color word list.
+	Colors DictType = iota
+	// Animal word list.
+	Animals DictType = iota
+	// Max value of DictType. Used internally for bounds checking.
+	numDicts DictType = iota
 )
 
 var dicts [numDicts][]string
@@ -321,7 +325,7 @@ var animals = []string{
 	"croc",
 	"crocodile",
 	"crow",
-	"dalmation",
+	"dalmatian",
 	"deer",
 	"dodo",
 	"doggo",

@@ -32,7 +32,7 @@ func main() {
 	}
 
 	// Initialize a nameGen instance with the received options.
-	name_schema := []namegen.DictType{
+	nameSchema := []namegen.DictType{
 		namegen.Adjectives,
 		namegen.Animals,
 	}
@@ -40,7 +40,7 @@ func main() {
 	if *aPtr {
 		pIdType = namegen.AlphaNumeric
 	}
-	ngen := namegen.NewWithPostfixId(name_schema, pIdType, *lPtr /* pIdLen */)
+	ngen := namegen.NewWithPostfixId(nameSchema, pIdType, *lPtr /* pIdLen */)
 
 	for i := 0; i < numIters; i++ {
 		fmt.Println(ngen.Get())
