@@ -436,6 +436,8 @@ var animals = []string{
 	"macaw",
 	"magpie",
 	"mako",
+	"mantaray",
+	"mantis",
 	"mastiff",
 	"megalodon",
 	"mink",
