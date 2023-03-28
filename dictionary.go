@@ -88,6 +88,7 @@ var adjectives = []string{
 	"curious",
 	"curly",
 	"curteous",
+	"curvy",
 	"cute",
 	"daft",
 	"dainty",
