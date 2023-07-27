@@ -147,6 +147,7 @@ var adjectives = []string{
 	"handsome",
 	"happy",
 	"harsh",
+	"hasty",
 	"healthy",
 	"heavy",
 	"helpful",
@@ -157,6 +158,9 @@ var adjectives = []string{
 	"huge",
 	"humorous",
 	"hungry",
+	"hyperactive",
+	"hyperbolic",
+	"hysterical",
 	"ignorant",
 	"illegal",
 	"imaginary",
@@ -251,6 +255,7 @@ var adjectives = []string{
 	"splendid",
 	"strong",
 	"successful",
+	"supercharged",
 	"sweet",
 	"tactful",
 	"talented",
@@ -271,6 +276,7 @@ var adjectives = []string{
 	"tiny",
 	"unique",
 	"untidy",
+	"upbeat",
 	"upset",
 	"victorious",
 	"violent",
@@ -286,6 +292,7 @@ var adjectives = []string{
 	"young",
 	"youthful",
 	"zealous",
+	"zen",
 }
 
 // Word corpus of colors.
