@@ -84,7 +84,7 @@ func (n nameGen) GetForId(randNum int64) string {
 		d := dicts[dIdx]
 		sb.WriteString(d[randIdxArr[i]])
 		if (i < len(n.dicts)-1) || (n.pIdLen > 0) {
-			sb.WriteString("-")
+			sb.WriteString(n.delim)
 		}
 	}
 	if n.pIdLen > 0 {
